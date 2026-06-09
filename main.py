@@ -31,13 +31,15 @@ def main() -> None:
         protocol_revision=1,
         c=1,
         msg_type=0,
-        payload_size=4,
+        #payload_size=4,
     )
     / ECPRI_IQ_DATA(
         PC_ID = 6,
         SEQ_ID = 7
     )
+    #/ Raw(b"\x11\x11\x11\x11\x11")
     )
+
 
     pkt.show()
     print(bytes(pkt).hex())

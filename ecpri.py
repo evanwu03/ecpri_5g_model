@@ -1,8 +1,13 @@
 # Author: Evan Wu
 # Date of Revision: 6/9/2026
 
-from scapy.all import Packet, BitField, ByteEnumField, ShortField, Ether, bind_layers
-
+from scapy.all import (
+    Packet, 
+    BitField, 
+    ByteEnumField, 
+    ShortField, Ether, 
+    bind_layers
+)
 
 ECPRI_ETHERTYPE = 0xAEFE
 
@@ -34,10 +39,27 @@ class ECPRI(Packet):
         BitField("reserved", 0, 3), 
         BitField("c", 0, 1), #  Concatenation indicator
         ByteEnumField("msg_type", 0, ECPRI_MSG_TYPES), 
-        ShortField("payload_size", 0) # max payload size is 2^16-1 bytes 
+        ShortField("payload_size", None) # max payload size is 2^16-1 bytes 
     ]
 
+    def post_build(self, pkt, pay):
+        # pkt = bytes of this ECPRI layer only
+        # pay = bytes of all layers after ECPRI
+        pkt += pay
 
+        # If user did not manually set payload_size, compute it.
+        if self.payload_size is None:
+            payload_size = len(pay)
+
+            # eCPRI payload_size occupies bytes 2 and 3 of the common header.
+            pkt = (
+                pkt[:2]
+                + payload_size.to_bytes(2, byteorder="big")
+                + pkt[4:]
+            )
+        return pkt
+    
+    
 
 class ECPRI_IQ_DATA(Packet):
     name = "ECPRI_IQ_DATA_MSG",
