@@ -36,16 +36,18 @@ def main() -> None:
     / ECPRI_IQ_DATA(
         PC_ID = 6,
         SEQ_ID = 7,
-        iq_data = b"\x11\x11\x11\x11\x11"
+        iq_data = b"\x11\x11\x11\x11"
     )
     )
 
 
     pkt.show()
     print(bytes(pkt).hex())
+    print(len(bytes(pkt[ECPRI])))
 
     decoded = Ether(bytes(pkt))
     decoded.show()
+    
 
 
 

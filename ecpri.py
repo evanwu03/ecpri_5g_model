@@ -79,7 +79,7 @@ class ECPRI_IQ_DATA(Packet):
     fields_desc = [
         ShortField("PC_ID", 0), # How to allocate this value is vendor-specific
         ShortField("SEQ_ID", 0),
-        StrLenField("iq_data", b"", length_from = lambda pkt: (pkt.underlayer.payload_size - 4), max_length= 2**16-1),
+        StrLenField("iq_data", b"", length_from = lambda pkt: (pkt.underlayer.payload_size - 4), max_length= 2**16-1), # type: ignore
         #IQ DATA, this has to be a variable length field
         # Refer to section 3.2.4.1 of eCPRI v2.0 specifications
     ]
