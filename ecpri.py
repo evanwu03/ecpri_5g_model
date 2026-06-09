@@ -14,6 +14,7 @@ from scapy.all import (
 )
 
 ECPRI_ETHERTYPE = 0xAEFE
+ECPRI_MAX_BYTE_PAYLOAD = (2**16)-1
 
 
 class ECPRIMsgType(IntEnum):
@@ -97,7 +98,7 @@ class ECPRI_IQ_DATA_MSG(Packet):
     fields_desc = [
         ShortField("PC_ID", 0), # How to allocate this value is vendor-specific
         ShortField("SEQ_ID", 0),
-        StrLenField("data", b"", length_from = lambda pkt: (pkt.underlayer.payload_size - 4), max_length= 2**16-1), # type: ignore
+        StrLenField("data", b"", length_from = lambda pkt: (pkt.underlayer.payload_size - 4), max_length= ECPRI_MAX_BYTE_PAYLOAD), # type: ignore
         # Refer to section 3.2.4.1 of eCPRI v2.0 specifications
     ]
 
@@ -107,9 +108,8 @@ class ECPRI_RTC_MSG(Packet):
     fields_desc = [
         ShortField("RTC_ID", 0), # How to allocate this value is vendor-specific
         ShortField("SEQ_ID", 0),
-        StrLenField("data", b"", length_from = lambda pkt: (pkt.underlayer.payload_size - 4), max_length= 2**16-1), # type: ignore
+        StrLenField("data", b"", length_from = lambda pkt: (pkt.underlayer.payload_size - 4), max_length= ECPRI_MAX_BYTE_PAYLOAD), # type: ignore
         # Refer to section 3.2.4.3 of eCPRI v2.0 specifications
-
     ]
 
 # Bind layers of ECPRI to chosen transport network protocol

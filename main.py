@@ -21,8 +21,8 @@ def main() -> None:
 
     # Small demo to show that ECPRI packet (with message type 0) 
     # over Ethernet will be interpreted as an ECPRI message by Scapy
-    """
-    pkt = (
+  
+    iq_pkt = (
     Ether(
         dst="ff:ff:ff:ff:ff:ff",
         src="00:11:22:33:44:55",
@@ -40,10 +40,9 @@ def main() -> None:
         data = b"\x11\x11\x11\x11\x11\x11\x11\x11\x11"
     )
     )
-    """
+    
 
-
-    pkt = (
+    rtc_pk = (
     Ether(
         dst="ff:ff:ff:ff:ff:ff",
         src="00:11:22:33:44:55",
@@ -62,10 +61,10 @@ def main() -> None:
     )
     )
 
-    pkt.show()
-    print(bytes(pkt).hex())
+    iq_pkt.show()
+    print(bytes(iq_pkt).hex())
 
-    decoded = Ether(bytes(pkt))
+    decoded = Ether(bytes(iq_pkt))
     decoded.show()
     
 
