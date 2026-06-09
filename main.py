@@ -35,9 +35,9 @@ def main() -> None:
     )
     / ECPRI_IQ_DATA(
         PC_ID = 6,
-        SEQ_ID = 7
+        SEQ_ID = 7,
+        iq_data = b"\x11\x11\x11\x11\x11"
     )
-    #/ Raw(b"\x11\x11\x11\x11\x11")
     )
 
 
@@ -46,6 +46,7 @@ def main() -> None:
 
     decoded = Ether(bytes(pkt))
     decoded.show()
+
 
 
 if __name__=="__main__":
