@@ -42,7 +42,7 @@ def main() -> None:
     )
     
 
-    rtc_pk = (
+    rtc_pkt = (
     Ether(
         dst="ff:ff:ff:ff:ff:ff",
         src="00:11:22:33:44:55",
