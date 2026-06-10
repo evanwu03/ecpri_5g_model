@@ -26,7 +26,6 @@ def main() -> None:
     # DEBUG: Open scapy interactive terminal
     #interact(mydict=globals())
 
-
     # Small demo to show that ECPRI packet (with message type 0) 
     # over Ethernet will be interpreted as an ECPRI message by Scapy
     msg0 = (
@@ -45,7 +44,7 @@ def main() -> None:
     msg1 = (
         ECPRI(
             protocol_revision=2,
-            c=0,
+            c=1,
             msg_type=ECPRIMsgType.IQ_DATA,
         )
         / ECPRI_IQ_DATA_MSG(
@@ -55,7 +54,20 @@ def main() -> None:
         )
     )
 
-    msgs = [msg0, msg1]
+    msg2 = (
+        ECPRI(
+            protocol_revision=2,
+            c=0,
+            msg_type=ECPRIMsgType.IQ_DATA,
+        )
+        / ECPRI_IQ_DATA_MSG(
+            PC_ID=6,
+            SEQ_ID=7,
+            data=b"\x88" * 8
+        )
+    )
+
+    msgs = [msg0, msg1, msg2]
     ecpri_msgs = build_concat_ecpri_frame(msgs)
 
     decoded = Ether(bytes(ecpri_msgs))
